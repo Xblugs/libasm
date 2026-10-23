@@ -2,6 +2,5 @@
 /obj
 *.a
 *.o
-*.s
 libasm_tester
 .bonus
