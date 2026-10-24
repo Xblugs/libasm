@@ -1,11 +1,16 @@
 
 ASM				:= nasm -f elf64
 
-SRC				:= ft_strlen.s
-SRC_BONUS		:= 
+SRC				:=	ft_strlen.s	\
+					ft_write.s	\
+					ft_read.s
+
+SRC_BONUS		:=	
+
+SRC_MISC		:= 	ft_exit.s
 
 SOURCES			:= $(SRC)
-SOURCES_BONUS	:= $(SRC_BONUS)
+SOURCES_BONUS	:= $(SRC_BONUS) $(SRC_MISC)
 
 NAME			:= libasm.a
 TEST_NAME		:= libasm_tester
@@ -41,6 +46,7 @@ clean:
 
 fclean: clean
 	@rm -rf $(NAME) $(TEST_NAME)
+	@rm -rf $(BONUS_DONE)
 
 flcean: fclean
 
