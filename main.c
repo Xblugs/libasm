@@ -4,10 +4,21 @@
 // Static sector
 static void mandatory_test(void);
 static void strlen_test(void);
+static void strcpy_test(void);
+static void strcmp_test(void);
 static void write_test(void);
 static void read_test(void);
 
 static void bonus_test(void);
+
+static void press_anykey(void)
+{
+	printf("--- Press any key to continue ---\n");
+	char *line = NULL;
+    size_t len = 0;
+	getline(&line, &len, stdin);
+    free(line);
+}
 
 /*
 	Big wall of tests inbound
@@ -21,11 +32,23 @@ int main(int ac, char **av)
 	return (0);
 }
 
+
 static void mandatory_test(void)
 {
 	strlen_test();
+	press_anykey();
+	
+	strcpy_test();
+	press_anykey();
+	
+	strcmp_test();
+	press_anykey();
+
 	write_test();
+	press_anykey();
+	
 	read_test();
+	press_anykey();
 }
 
 static void bonus_test(void)
@@ -35,7 +58,7 @@ static void bonus_test(void)
 
 static void strlen_test(void)
 {
-	printf(YELLOW "STRLEN TESTS!\n");
+	printf(YELLOW "\tSTRLEN TESTS!\n");
 
 	int a = ft_strlen(MSG);
 	int b = strlen(MSG);
@@ -67,9 +90,64 @@ static void strlen_test(void)
 	printf("\n" END);
 }
 
+static void strcpy_test(void)
+{
+	printf(B_WHITE "\tSTRCPY TESTS!\n");
+
+	char dst[30], src[30], *ptr;
+	bzero(dst, 30);
+	bzero(src, 30);
+
+	strcpy(src, "le chat est dans la boite");
+	ptr = ft_strcpy(dst, src);
+	printf("src=%s\ndst=%s\n\t-- Basic copy\n\n", src, ptr);
+
+	strcpy(src, &src[8]);
+	ptr = ft_strcpy(dst, &dst[8]);
+	printf("asm=%s\nreal=%s\n\t-- Overlapping copy\n", ptr, src);
+
+	// any NULL crashes
+	// strcpy(NULL, NULL);
+
+	printf("\n" END);
+}
+
+static void strcmp_test(void)
+{
+	printf(CYAN "\tSTRCMP TESTS!\n");
+
+	char str1[] = "Hello";
+	char str2[] = "World";
+	char str3[] = "ab";
+	char str4[] = "abc";
+	char str5[] = "";
+	int mine = 0, real = 0;
+	
+	mine = ft_strcmp(str1, str1);
+	real = strcmp(str1, str1);
+	printf("asm=%d, real=%d\t-- Hello vs Hello\n", mine, real);
+
+	mine = ft_strcmp(str1, str2);
+	real = strcmp(str1, str2);
+	printf("asm=%d, real=%d\t-- Hello vs World\n", mine, real);
+
+	mine = ft_strcmp(str3, str4);
+	real = strcmp(str3, str4);
+	printf("asm=%d, real=%d\t-- ab vs abc\n", mine, real);
+
+	mine = ft_strcmp(str4, str3);
+	real = strcmp(str4, str3);
+	printf("asm=%d, real=%d\t-- abc vs ab\n", mine, real);
+
+	mine = ft_strcmp(str3, str5);
+	real = strcmp(str3, str5);
+	printf("asm=%d, real=%d\t-- \"ab\" vs \"\"\n", mine, real);
+
+	printf("\n" END);
+}
 static void write_test(void)
 {
-	printf(GREEN "WRITE TESTS!\n");
+	printf(GREEN "\tWRITE TESTS!\n");
 
 	int a = ft_write(STDIN_FILENO, "FT_HELLO\n", 10);
 	int b = write(STDIN_FILENO, "   HELLO\n", 10);
@@ -104,17 +182,18 @@ static void write_test(void)
 
 static void read_test(void)
 {
-	printf(BLUE "READ TESTS!\n");
+	printf(BLUE "\tREAD TESTS!\n");
 
 	char res[30];
 	int a ,b, fd;
+	memset(res, 0xff, sizeof(char));
 	// bzero(res, 30);
 	res[29] = 0;
 
 	fd = open("./main.c", 0);
 	a = ft_read(fd, res, 13);
-	b = read(fd, &res[15], 13);
-	printf("asm=%03d, real=%03d \t-- Read test\n\n", a, b);
+	b = read(fd, &res[13], 13);
+	printf("asm=%03d, real=%03d \t-- Read test\n", a, b);
 	close(fd);
 	printf("res=[%s]\n", res);
 
@@ -143,6 +222,6 @@ static void read_test(void)
 	printf("real=%03d errno=%03d\t-- negative len\n", a, errno);
 	close(fd);
 
-	printf("res = \"%s\"\n", res);
+	printf("res = [%s]\n", res);
 	printf("\n" END);
 }

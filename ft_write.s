@@ -11,7 +11,7 @@ ft_write:	;; ssize_t ft_write(int fd, const void *buf, size_t count)
 	; mov rdx, n	;; just send
 	syscall
 	cmp rax, 0
-	jne .set_errno
+	jl .set_errno
 	ret
 
 .set_errno:
