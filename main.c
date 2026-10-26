@@ -8,6 +8,8 @@ static void strcpy_test(void);
 static void strcmp_test(void);
 static void write_test(void);
 static void read_test(void);
+static void strdup_test(void);
+static void calloc_test(void);
 
 static void bonus_test(void);
 
@@ -49,6 +51,9 @@ static void mandatory_test(void)
 	
 	read_test();
 	press_anykey();
+
+	strdup_test();
+	// press_anykey();
 }
 
 static void bonus_test(void)
@@ -105,6 +110,10 @@ static void strcpy_test(void)
 	strcpy(src, &src[8]);
 	ptr = ft_strcpy(dst, &dst[8]);
 	printf("asm=%s\nreal=%s\n\t-- Overlapping copy\n", ptr, src);
+
+	strcpy(src, "le chien dort");
+	ptr = ft_strcpy(dst, src);
+	printf("asm=%s\nreal=%s\n\t-- NULL terminaison copy\n", ptr, src);
 
 	// any NULL crashes
 	// strcpy(NULL, NULL);
@@ -197,31 +206,71 @@ static void read_test(void)
 	close(fd);
 	printf("res=[%s]\n", res);
 
+	errno = 42;
 	fd = open("./README.md", O_WRONLY);
 	a = ft_read(fd, "FT_HELLO\n", 10);
 	printf("asm=%03d errno=%03d \t", a, errno);
+
+	errno = 42;
 	b = read(fd, "   HELLO\n", 10);
 	printf("real=%03d errno=%03d\t-- File open in writing only\n", a, errno);
 	close(fd);
 
+	errno = 42;
 	a = ft_read(-1, "FT_HELLO\n", 10);
 	printf("asm=%03d errno=%03d \t", a, errno);
+
+	errno = 42;
 	b = read(-1, "   HELLO\n", 10);
 	printf("real=%03d errno=%03d\t-- FD = -1\n", a, errno);
 
+	errno = 42;
 	fd = open("./README.md", 0);
 	a = ft_read(fd, NULL, 10);
 	printf("asm=%03d errno=%03d \t", a, errno);
+
+	errno = 42;
 	b = read(fd, NULL, 10);
 	printf("real=%03d errno=%03d\t-- buf = NULL\n", a, errno);
 
 	errno = 42;
 	a = ft_read(fd, "🦜\n", -10);
 	printf("asm=%03d errno=%03d \t", a, errno);
+
+	errno = 42;
 	b = read(fd, "🦜\n", -10);
 	printf("real=%03d errno=%03d\t-- negative len\n", a, errno);
 	close(fd);
 
 	printf("res = [%s]\n", res);
 	printf("\n" END);
+}
+
+static void strdup_test(void)
+{
+	printf(B_RED "\tSTRDUP TESTS!\n");
+
+	char src[30] = "Testing grounds!", *ptr1 = NULL, *ptr2 = NULL;
+
+	ptr1 = strdup(src);
+	ptr2 = ft_strdup(src);
+	// printf("errno=%d\n", errno); // uncomment when testing errno
+	printf("strdup=[%s], ft_strdup=[%s]\n", ptr1, ptr2);
+	printf("strcmp between copies = [%d], ptr1=%p, ptr2=%p\t-- Dup test\n"
+			, strcmp(ptr1, ptr2), ptr1, ptr2);
+	printf("real len=%lu, asm len2=%lu\n\n", strlen(ptr1), strlen(ptr2));
+	free(ptr1);
+	free(ptr2);
+
+	ptr2 = ft_strdup(LOREM);
+	printf("longer test, ft_strdup=[%s]\n", ptr2);
+	printf("len=%lu\n", strlen(ptr2));
+	free(ptr2);
+
+	printf("\n" END);
+}
+
+static void calloc_test(void)
+{
+
 }

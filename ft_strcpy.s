@@ -8,7 +8,7 @@ ft_strcpy:	;; char *ft_strcpy(char *dest, const char *src);
 	.check:
 	cmp byte [rsi], 0
 	jne .loop
-	mov al, byte [rsi]
+	mov al, byte [rsi]	;; add null terminator
 	mov [rdi], al
 	mov rax, rdx
 	ret

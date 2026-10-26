@@ -6,12 +6,14 @@ ft_strcmp:	;; int ft_strcmp(const char *s1, const char *s2);
 	xor rax, rax
 	.check:
 	mov al, [rdi]
-	cmp byte al, [rsi]
+	cmp al, byte [rsi]
 	je .loop
 	.end:
-	mov al, [rdi]
-	sub byte al, [rsi]
-	; js  handle_sign
+	xor rax, rax
+	xor rcx, rcx
+	mov al, byte [rdi]
+	mov cl, byte [rsi]
+	sub rax, rcx
 	ret
 
 
@@ -21,6 +23,3 @@ ft_strcmp:	;; int ft_strcmp(const char *s1, const char *s2);
 	inc rdi
 	inc rsi
 	jmp .check
-
-; .handle_sign:
-
