@@ -60,3 +60,4 @@ xxd -a prog
 [ASM introduction](https://github.com/0xAX/asm/tree/master)  
 [Syscall num in linux](https://github.com/torvalds/linux/blob/master/arch/x86/entry/syscalls/syscall_64.tbl)  
 [x86-64 Reference Sheet (AT&T syntax)](https://web.stanford.edu/class/cs107/resources/x86-64-reference.pdf)  
+[Intel x86 JUMP quick reference](http://unixwiz.net/techtips/x86-jumps.html)

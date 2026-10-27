@@ -6,24 +6,35 @@ extern malloc ;; void *malloc(size_t size);
 
 ft_calloc:	;; void *ft_calloc(size_t nmemb, size_t size);
 
-;; TODO LOL
-	push rdi
-	call ft_strlen
-	mov rdi, rax
-	; mov rdi, 0xFFFFFFFFFFF ;; force malloc to fail
-	mov rsi, 1
+	push r12
+	mov rax, rsi
+	mul rdi
+	jc .set_errno ;; jump if overflow
+
+	mov r12, rdi
 	call malloc
 	cmp rax, 0
-	je .set_errno
-	mov rdi, rax
-	pop rsi
-	call ft_strcpy
+	je .set_errno ;; jump on alloc error
+	
+	xor rcx, rcx
+	mov rdi, r12
+	mov rdx, rax
+	.check:
+	cmp rcx, rdi
+	jne .loop
+
 	.end:
+	pop r12
 	ret
 
 .set_errno:
 	call __errno_location ;; wrt ..plt
-	mov dword [rax], 12	;; errno is 32 bit
+	mov dword [rax], 12	;; errno is 32 bit, 12 = ENOMEM
 	xor rax, rax
-	pop rdi	;; must be popped before the function ends
 	jmp .end
+
+.loop:	;; clear each byte
+	mov byte [rdx], 0
+	inc rcx
+	inc rdx
+	jmp .check

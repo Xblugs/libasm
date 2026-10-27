@@ -12,7 +12,6 @@ ft_strdup:	;; char *ft_strdup(const char *s);
 	call ft_strlen
 	mov rdi, rax
 	; mov rdi, 0xFFFFFFFFFFF ;; force malloc to fail
-	mov rsi, 1
 	call malloc
 	cmp rax, 0
 	je .set_errno
@@ -24,7 +23,7 @@ ft_strdup:	;; char *ft_strdup(const char *s);
 
 .set_errno:
 	call __errno_location ;; wrt ..plt
-	mov dword [rax], 12	;; errno is 32 bit
+	mov dword [rax], 12	;; errno is 32 bit, 12 = ENOMEM
 	xor rax, rax
 	pop rdi	;; must be popped before the function ends
 	jmp .end

@@ -53,7 +53,9 @@ static void mandatory_test(void)
 	press_anykey();
 
 	strdup_test();
-	// press_anykey();
+	press_anykey();
+
+	calloc_test();
 }
 
 static void bonus_test(void)
@@ -272,5 +274,18 @@ static void strdup_test(void)
 
 static void calloc_test(void)
 {
+	printf(PURPLE "\tCALLOC TESTS!\n");
 
+	char *ptr1 = NULL;
+
+	ptr1 = ft_calloc(200, sizeof(char));
+	printf("ft_calloc=%s\n\t-- Nothing should be printed after '='\n\n", ptr1);
+	free(ptr1);
+
+	errno = 42;
+	ptr1 = ft_calloc(__SIZE_MAX__, sizeof(long));
+	printf("ft_calloc=%p, errno=%d\n\t-- Should print nil and 12\n", ptr1, errno);
+	free(ptr1);
+
+	printf("\n" END);
 }

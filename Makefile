@@ -1,7 +1,8 @@
 
 ASM				:= nasm -f elf64
 
-SRC				:=	ft_read.s	\
+SRC				:=	ft_calloc.s \
+					ft_read.s	\
 					ft_strcmp.s \
 					ft_strcpy.s	\
 					ft_strdup.s \
