@@ -8,6 +8,7 @@ ft_strcmp:	;; int ft_strcmp(const char *s1, const char *s2);
 	mov al, [rdi]
 	cmp al, byte [rsi]
 	je .loop
+
 	.end:
 	xor rax, rax
 	xor rcx, rcx

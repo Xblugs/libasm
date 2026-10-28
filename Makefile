@@ -1,15 +1,17 @@
 
 ASM				:= nasm -f elf64
 
-SRC				:=	ft_calloc.s \
-					ft_read.s	\
-					ft_strcmp.s \
-					ft_strcpy.s	\
-					ft_strdup.s \
-					ft_strlen.s	\
+SRC				:=	ft_calloc.s 			\
+					ft_read.s				\
+					ft_strcmp.s 			\
+					ft_strcpy.s				\
+					ft_strdup.s 			\
+					ft_strlen.s				\
 					ft_write.s	
 
-SRC_BONUS		:=	
+SRC_BONUS		:=	ft_list_push_front.s	\
+					ft_list_size.s			\
+					ft_list_sort.s
 
 SRC_MISC		:= 	ft_exit.s
 

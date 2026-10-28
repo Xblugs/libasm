@@ -12,6 +12,7 @@ static void strdup_test(void);
 static void calloc_test(void);
 
 static void bonus_test(void);
+static void list_test(void);
 
 static void press_anykey(void)
 {
@@ -28,8 +29,19 @@ static void press_anykey(void)
 
 int main(int ac, char **av)
 {
-	mandatory_test();
-	bonus_test();
+	char status = 0;
+
+	if (ac >= 2 && !strcmp(av[1], "mandatory"))
+		status = 1;
+	else if (ac >= 2 && !strcmp(av[1], "bonus"))
+		status = 2;
+	else
+		status = 3;
+
+	if (status == 1 || status == 3)
+		mandatory_test();
+	if (status == 2 || status == 3)
+		bonus_test();
 	ft_exit(42);
 	return (0);
 }
@@ -56,12 +68,17 @@ static void mandatory_test(void)
 	press_anykey();
 
 	calloc_test();
+	press_anykey();
 }
 
 static void bonus_test(void)
 {
-	
+	list_test();
 }
+
+/*/////////////////////
+//	MANDATORY TESTS  //
+*//////////////////////
 
 static void strlen_test(void)
 {
@@ -111,7 +128,7 @@ static void strcpy_test(void)
 
 	strcpy(src, &src[8]);
 	ptr = ft_strcpy(dst, &dst[8]);
-	printf("asm=%s\nreal=%s\n\t-- Overlapping copy\n", ptr, src);
+	printf("asm=%s\nreal=%s\n\t-- Overlapping copy\n\n", ptr, src);
 
 	strcpy(src, "le chien dort");
 	ptr = ft_strcpy(dst, src);
@@ -172,11 +189,13 @@ static void write_test(void)
 	b = write(STDIN_FILENO, "   HELLO\n", 0);
 	printf("asm=%03d, real=%03d \t-- Len = 0\n", a, b);
 
+	errno = 42;
 	a = ft_write(-1, "FT_HELLO\n", 10);
 	printf("asm=%03d errno=%03d \t", a, errno);
 	b = write(-1, "   HELLO\n", 10);
 	printf("real=%03d errno=%03d\t-- FD = -1\n", a, errno);
 
+	errno = 42;
 	a = ft_write(STDIN_FILENO, NULL, 10);
 	printf("asm=%03d errno=%03d \t", a, errno);
 	b = write(STDIN_FILENO, NULL, 10);
@@ -287,5 +306,50 @@ static void calloc_test(void)
 	printf("ft_calloc=%p, errno=%d\n\t-- Should print nil and 12\n", ptr1, errno);
 	free(ptr1);
 
+	printf("\n" END);
+}
+
+/*/////////////////////
+//	BONUS PART TESTS //
+*//////////////////////
+
+/*
+	Tests ft_list_push_front, ft_list_size
+*/
+static void list_test(void)
+{
+	printf(BLINK_YELLOW "\tLIST TESTS!\n" END);
+
+	t_list a, b, *c = NULL, *head = &a;
+	char s1[10]="apple", s2[10]="badger", s3[10]="cocorico";
+
+	a.data = s1;	a.next = &b;
+	b.data = s2;	b.next = NULL;
+
+	printf(B_WHITE "base head=%p, data=%s\n", &head, (char *)head->data);
+	ft_list_push_front(&head, s3);
+	printf(YELLOW "ft_list_push_front with %s as data:\n", s3);
+	printf("\thead=%p, data=%s\n", &head, (char *)head->data);
+	c = head->next;
+	while (c)
+	{
+		printf("\tnext=%p, data=%s\n", &c, (char *)c->data);
+		c = c->next;
+	}
+
+	printf(CYAN "List has %d elements (ft_list_size)\n", ft_list_size(head));
+	printf("Starting from %s list, there's %d element\n", (char *)b.data, ft_list_size(&b));
+	printf("Sending an empty list (NULL), size = %d\n", ft_list_size(c));
+
+	printf(GREEN "List after sorting:\n", ft_list_size(head));
+	ft_list_sort(&head, *strcmp);
+	c = head;
+	while (c)
+	{
+		printf("\tptr=%p, data=%s\n", &c, (char *)c->data);
+		c = c->next;
+	}
+
+	free(head);
 	printf("\n" END);
 }

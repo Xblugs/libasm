@@ -15,6 +15,7 @@ ft_strdup:	;; char *ft_strdup(const char *s);
 	call malloc
 	cmp rax, 0
 	je .set_errno
+	
 	mov rdi, rax
 	pop rsi
 	call ft_strcpy
