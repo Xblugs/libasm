@@ -320,7 +320,7 @@ static void list_test(void)
 {
 	printf(BLINK_YELLOW "\tLIST TESTS!\n" END);
 
-	t_list a, b, *c = NULL, *head = &a;
+	t_list a, b, *c = NULL, *temp = NULL, *head = &a;
 	char s1[10]="apple", s2[10]="badger", s3[10]="cocorico";
 
 	a.data = s1;	a.next = &b;
@@ -328,12 +328,14 @@ static void list_test(void)
 
 	printf(B_WHITE "base head=%p, data=%s\n", &head, (char *)head->data);
 	ft_list_push_front(&head, s3);
+	ft_list_push_front(&head, "TEST");
 	printf(YELLOW "ft_list_push_front with %s as data:\n", s3);
-	printf("\thead=%p, data=%s\n", &head, (char *)head->data);
+	temp = head;
+	printf("\t   head=%15p, data=%10s, next=%15p\n", head, (char *)head->data, head->next);
 	c = head->next;
 	while (c)
 	{
-		printf("\tnext=%p, data=%s\n", &c, (char *)c->data);
+		printf("\tcurrent=%15p, data=%10s, next=%15p\n", c, (char *)c->data, c->next);
 		c = c->next;
 	}
 
@@ -341,15 +343,16 @@ static void list_test(void)
 	printf("Starting from %s list, there's %d element\n", (char *)b.data, ft_list_size(&b));
 	printf("Sending an empty list (NULL), size = %d\n", ft_list_size(c));
 
-	printf(GREEN "List after sorting:\n", ft_list_size(head));
 	ft_list_sort(&head, *strcmp);
+	printf(GREEN "List after sorting: size=%d\n", ft_list_size(head));
 	c = head;
+	printf("head ptr=%15p\n", c);
 	while (c)
 	{
-		printf("\tptr=%p, data=%s\n", &c, (char *)c->data);
+		printf("\tptr=%15p, data=%10s, next=%15p\n", c, (char *)c->data, c->next);
 		c = c->next;
 	}
 
-	free(head);
+	free(temp);
 	printf("\n" END);
 }

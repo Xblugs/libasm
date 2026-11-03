@@ -34,6 +34,6 @@ ft_list_push_front:	;; void ft_list_push_front(t_list **begin_list, void *data);
 	call __errno_location ;; wrt ..plt
 	mov dword [rax], 12	;; errno is 32 bit, 12 = ENOMEM
 	xor rax, rax
-	pop rdi	;; must be popped before the function ends
-	pop rsi
+	pop rsi	;; must be popped before the function ends
+	pop rdi
 	jmp .end

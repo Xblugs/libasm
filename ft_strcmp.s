@@ -17,7 +17,6 @@ ft_strcmp:	;; int ft_strcmp(const char *s1, const char *s2);
 	sub rax, rcx
 	ret
 
-
 .loop:
 	cmp byte [rdi], 0
 	je .end

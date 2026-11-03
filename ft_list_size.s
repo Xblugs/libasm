@@ -7,12 +7,12 @@ global ft_list_size
 ft_list_size:	;; unsigned int ft_list_size(t_list *begin_list);
 
 	xor rax, rax
-	push rdi
+	; push rdi
 	.check:
 	cmp QWORD rdi, 0
 	jne .loop
 
-	pop rdi
+	; pop rdi
 	ret
 
 .loop:
