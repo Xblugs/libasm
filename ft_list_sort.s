@@ -5,7 +5,7 @@ extern ft_list_size ;; unsigned int ft_list_size(t_list *begin_list);
 
 	;; Look data content
 	;; compare values using *cmp
-	;; if > 0, swap positions
+	;; if > 0, swap positions ('b' - 'a' = 1)
 	;; if equal check next until we reach max len
 	;; go until end of list
 	;; loop back until sorted
@@ -27,6 +27,7 @@ ft_list_sort:	;; void ft_list_sort(t_list **begin_list, int (*cmp)());
 	push rdi
 	call ft_list_size
 	pop rdi
+
 	mov rcx, rax
 	dec rcx 		;; size n requires n-1 loop to sort at most
 	cmp rcx, 0
@@ -37,9 +38,10 @@ ft_list_sort:	;; void ft_list_sort(t_list **begin_list, int (*cmp)());
 	mov r14, [r12]	;; current = head
 	mov r15, [r14+8];; next = head->next
 
-	.check:
+.check:
 	mov rdi, [r14]
 	mov rsi, [r15]
+
 	push rcx
 	push rdx
 	call r13 		;; assume (*cmp)(list_ptr->data, list_other_ptr->data);
@@ -47,10 +49,10 @@ ft_list_sort:	;; void ft_list_sort(t_list **begin_list, int (*cmp)());
 	pop rcx
 
 	cmp rax, 0
-	jl .swap
-	jge .inc
+	jg .swap
+	jle .incr
 
-	.end:
+.end:
 	pop r15
 	pop r14
 	pop r13
@@ -68,16 +70,14 @@ ft_list_sort:	;; void ft_list_sort(t_list **begin_list, int (*cmp)());
 	mov [r14+8], rdx	;; set a->next to original b->next (c)
 
 	mov r11, [r12]		;; previous node is the head
-	mov rdi, [r15+8]
-	mov rsi, [r14+8]
-
-	mov rdx, r14
-	mov r14, r15
-	mov r15, rdx
+	mov r14, [r15+8]
+	mov r15, [r14+8]
 
 	pop rdx
 	inc rdx 			;; set flag
-	jmp .check
+
+	xchg r14, r15
+	jmp .incr
 
 .swap:	;; rdx != 0 means we're not on list head ptr
 	cmp rdx, 0
@@ -91,17 +91,16 @@ ft_list_sort:	;; void ft_list_sort(t_list **begin_list, int (*cmp)());
 	mov [r15+8], r14	;; set b as c->next
 	mov [r14+8], rdx	;; restore initial c->next in b->next (NULL here)
 
-	mov rdi, [r15]
-	mov rsi, [r14]
 	mov r11, r15
+	mov r14, [r15+8]
+	mov r15, [r14+8]
 
-	mov rdx, r14
-	mov r14, r15
-	mov r15, rdx
 	pop rdx
-	jmp .check
 
-.inc:	;; set list to list->next
+	xchg r14, r15
+	jmp .incr
+
+.incr:	;; set list to list->next
 	mov r11, r14
 	mov r14, r15
 	cmp r14, 0
@@ -111,8 +110,6 @@ ft_list_sort:	;; void ft_list_sort(t_list **begin_list, int (*cmp)());
 	cmp r15, 0
 	je .loop
 	
-	mov rdi, [r14]
-	mov rsi, [r15]
 	jmp .check
 
 .loop:
