@@ -9,18 +9,17 @@ ft_calloc:	;; void *ft_calloc(size_t nmemb, size_t size);
 	push r12
 	mov rax, rsi
 	mul rdi
-	jc .set_errno ;; jump if overflow
+	jc .set_errno	;; jump if overflow
 
 	mov r12, rdi
 	call malloc
 	cmp rax, 0
-	je .set_errno ;; jump on alloc error
+	je .set_errno	;; jump on alloc error
 	
 	xor rcx, rcx
-	mov rdi, r12
-	mov rdx, rax
+	mov rdx, rax	;; copy rax to preserve the base ptr
 	.check:
-	cmp rcx, rdi
+	cmp rcx, r12
 	jne .loop
 
 	.end:

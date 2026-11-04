@@ -74,6 +74,7 @@ static void mandatory_test(void)
 static void bonus_test(void)
 {
 	list_test();
+	press_anykey();
 }
 
 /*/////////////////////
@@ -315,13 +316,13 @@ static void calloc_test(void)
 *//////////////////////
 
 /*
-	Tests ft_list_push_front, ft_list_size
+	Tests list functions together
 */
 static void list_test(void)
 {
 	printf(BLINK_YELLOW "\tLIST TESTS!\n" END);
 
-	t_list a, b, *c = NULL, *temp = NULL, *head = &a;
+	t_list a, b, *c = NULL, *temp1 = NULL, *temp2 = NULL, *head = &a;
 	char *s1 = "apple";
 	char *s2 = "badger";
 	char *s3 = "cocorico";
@@ -331,11 +332,16 @@ static void list_test(void)
 	a.data = s1;	a.next = &b;
 	b.data = s2;	b.next = NULL;
 
+	/*
+		Push front
+	*/
 	printf(B_WHITE "base head=%p, data=%s\n", &head, (char *)head->data);
+	printf("\n");
 	ft_list_push_front(&head, s3);
+	temp1 = head;
 	ft_list_push_front(&head, s4);
-	printf(YELLOW "ft_list_push_front with %s as data:\n", s3);
-	temp = head;
+	temp2 = head;
+	printf(YELLOW "ft_list_push_front with %s & %s as data:\n", s3, s4);
 	printf("\t   head=%15p, data=%10s, next=%15p\n", head, (char *)head->data, head->next);
 	c = head->next;
 	while (c)
@@ -343,11 +349,19 @@ static void list_test(void)
 		printf("\tcurrent=%15p, data=%10s, next=%15p\n", c, (char *)c->data, c->next);
 		c = c->next;
 	}
+	printf("\n");
 
+	/*
+		Size
+	*/
 	printf(CYAN "List has %d elements (ft_list_size)\n", ft_list_size(head));
 	printf("Starting from %s list, there's %d element\n", (char *)b.data, ft_list_size(&b));
 	printf("Sending an empty list (NULL), size = %d\n", ft_list_size(c));
+	printf("\n");
 
+	/*
+		Sorting
+	*/
 	ft_list_sort(&head, ft_strcmp);
 	// ft_list_sort(&head, strcmp);
 	printf(GREEN "List after sorting: size=%d\n", ft_list_size(head));
@@ -359,6 +373,89 @@ static void list_test(void)
 		c = c->next;
 	}
 
-	free(temp);
+	free(temp1);
+	free(temp2);
+
+	printf("\n" END);
+	press_anykey();
+	printf(BLINK_YELLOW "\tLIST TESTS! (cont)\n" END);
+
+	/*
+		Remove if
+	*/
+	char *data[6];
+	data[0] = ft_calloc(2, sizeof(char));	data[0][0] = 'a';
+	data[1] = ft_calloc(2, sizeof(char));	data[1][0] = 'b';
+	data[2] = ft_calloc(2, sizeof(char));	data[2][0] = 'c';
+	data[3] = ft_calloc(2, sizeof(char));	data[3][0] = 'd';
+	data[4] = ft_calloc(2, sizeof(char));	data[4][0] = 'e';
+	data[5] = ft_calloc(2, sizeof(char));	data[5][0] = 'z';
+	c = malloc(sizeof(t_list));
+	c->data = data[0];
+	c->next = NULL;
+	head = c;
+	ft_list_push_front(&head, data[1]);
+	ft_list_push_front(&head, data[2]);
+	ft_list_push_front(&head, data[3]);
+	ft_list_push_front(&head, data[4]);
+
+	// LIST
+	c = head;
+	printf(B_WHITE "head ptr=%15p (new list)\n", c);
+	while (c)
+	{
+		printf("\tptr=%15p, data=%10s, next=%15p\n", c, (char *)c->data, c->next);
+		c = c->next;
+	} printf("\n");
+
+	// SORTED LIST
+	ft_list_sort(&head, ft_strcmp);
+	c = head;
+	printf(B_WHITE "head ptr=%15p (after sorting)\n", c);
+	while (c)
+	{
+		printf("\tptr=%15p, data=%10s, next=%15p\n", c, (char *)c->data, c->next);
+		c = c->next;
+	} printf("\n");
+
+	// REMOVE
+	ft_list_remove_if(&head, "c", ft_strcmp, free);
+	ft_list_remove_if(&head, "e", strcmp, free);
+	c = head;
+	printf(B_WHITE "head ptr=%15p (after removing 'c' AND 'e')\n", c);
+	while (c)
+	{
+		printf("\tptr=%15p, data=%10s, next=%15p\n", c, (char *)c->data, c->next);
+		c = c->next;
+	} printf("\n");
+
+	// REMOVE HEAD
+	ft_list_push_front(&head, data[5]);
+	ft_list_remove_if(&head, "z", strcmp, free);
+	c = head;
+	printf(B_WHITE "head ptr=%15p (after adding and removing 'z')\n", c);
+	while (c)
+	{
+		printf("\tptr=%15p, data=%10s, next=%15p\n", c, (char *)c->data, c->next);
+		c = c->next;
+	} printf("\n");
+
+	// DON'T REMOVE
+	ft_list_remove_if(&head, "y", strcmp, free);
+	c = head;
+	printf(B_WHITE "head ptr=%15p (after removing 'y')\n", c);
+	while (c)
+	{
+		printf("\tptr=%15p, data=%10s, next=%15p\n", c, (char *)c->data, c->next);
+		c = c->next;
+	}
+
+	// removing everything to free all
+	ft_list_remove_if(&head, "a", strcmp, free);
+	ft_list_remove_if(&head, "b", strcmp, free);
+	ft_list_remove_if(&head, "c", strcmp, free);
+	ft_list_remove_if(&head, "d", strcmp, free);
+	ft_list_remove_if(&head, "e", strcmp, free);
+
 	printf("\n" END);
 }

@@ -60,7 +60,7 @@ ft_list_sort:	;; void ft_list_sort(t_list **begin_list, int (*cmp)());
 	ret
 
 .swap_head:
-	;; nodes a -> b -> c
+	;; nodes [a -> b] -> c
 	;; currently swapping a & b
 	push rdx
 	mov [r12], r15		;; head ptr must point to b
@@ -79,7 +79,7 @@ ft_list_sort:	;; void ft_list_sort(t_list **begin_list, int (*cmp)());
 	cmp rdx, 0
 	je .swap_head
 
-	;; nodes a -> b -> c
+	;; nodes a -> [b -> c]
 	;; currently swapping b & c
 	push rdx
 	mov [rbx+8], r15	;; a->next must point to c
