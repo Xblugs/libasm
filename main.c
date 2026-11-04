@@ -149,10 +149,11 @@ static void strcmp_test(void)
 	char str3[] = "ab";
 	char str4[] = "abc";
 	char str5[] = "";
+	char str6[] = "Hello";
 	int mine = 0, real = 0;
 	
-	mine = ft_strcmp(str1, str1);
-	real = strcmp(str1, str1);
+	mine = ft_strcmp(str1, str6);
+	real = strcmp(str1, str6);
 	printf("asm=%d, real=%d\t-- Hello vs Hello\n", mine, real);
 
 	mine = ft_strcmp(str1, str2);
@@ -321,14 +322,18 @@ static void list_test(void)
 	printf(BLINK_YELLOW "\tLIST TESTS!\n" END);
 
 	t_list a, b, *c = NULL, *temp = NULL, *head = &a;
-	char s1[10]="apple", s2[10]="badger", s3[10]="cocorico";
-
+	char *s1 = "apple";
+	char *s2 = "badger";
+	char *s3 = "cocorico";
+	// char *s4 = "test";
+	// char *s4 = "Test";
+	char *s4 = "bagel";
 	a.data = s1;	a.next = &b;
 	b.data = s2;	b.next = NULL;
 
 	printf(B_WHITE "base head=%p, data=%s\n", &head, (char *)head->data);
 	ft_list_push_front(&head, s3);
-	ft_list_push_front(&head, "TEST");
+	ft_list_push_front(&head, s4);
 	printf(YELLOW "ft_list_push_front with %s as data:\n", s3);
 	temp = head;
 	printf("\t   head=%15p, data=%10s, next=%15p\n", head, (char *)head->data, head->next);
@@ -343,7 +348,8 @@ static void list_test(void)
 	printf("Starting from %s list, there's %d element\n", (char *)b.data, ft_list_size(&b));
 	printf("Sending an empty list (NULL), size = %d\n", ft_list_size(c));
 
-	ft_list_sort(&head, *strcmp);
+	ft_list_sort(&head, ft_strcmp);
+	// ft_list_sort(&head, strcmp);
 	printf(GREEN "List after sorting: size=%d\n", ft_list_size(head));
 	c = head;
 	printf("head ptr=%15p\n", c);

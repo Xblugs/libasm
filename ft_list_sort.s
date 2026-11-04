@@ -9,24 +9,23 @@ extern ft_list_size ;; unsigned int ft_list_size(t_list *begin_list);
 	;; if equal check next until we reach max len
 	;; go until end of list
 	;; loop back until sorted
-	;; (keep a swap counter?, loop a fixed amount base on lst_size?)
-	;; Profit
+	;; unoptimized but functional
 
 ft_list_sort:	;; void ft_list_sort(t_list **begin_list, int (*cmp)());
 
-	push r11
-	push r12
-	push r13
+	push rbx		;; previous node, lst->ptr address
+	push r12		;; list head
+	push r13		;; cmp function addr
 	push r14		;; current node
 	push r15		;; next node
-	xor r11, r11	;; ;; previous node, lst->ptr address
-	mov r12, rdi	;; list head
-	mov r13, rsi	;; cmp function addr
+
+	mov r12, rdi
+	mov r13, rsi
 
 	mov rdi, [rdi]	;; init first time and get list size
-	push rdi
+	mov rbx, rdi
 	call ft_list_size
-	pop rdi
+	mov rdi, rbx
 
 	mov rcx, rax
 	dec rcx 		;; size n requires n-1 loop to sort at most
@@ -48,7 +47,7 @@ ft_list_sort:	;; void ft_list_sort(t_list **begin_list, int (*cmp)());
 	pop rdx
 	pop rcx
 
-	cmp rax, 0
+	cmp eax, 0		;; real strcmp leaves garbage into rax upper part
 	jg .swap
 	jle .incr
 
@@ -57,27 +56,24 @@ ft_list_sort:	;; void ft_list_sort(t_list **begin_list, int (*cmp)());
 	pop r14
 	pop r13
 	pop r12
-	pop r11
+	pop rbx
 	ret
 
 .swap_head:
 	;; nodes a -> b -> c
 	;; currently swapping a & b
 	push rdx
-	mov rdx, [r15+8]	;; save b->next
 	mov [r12], r15		;; head ptr must point to b
+	mov rdx, [r15+8]	;; save b->next
 	mov [r15+8], r14	;; b->next is a
 	mov [r14+8], rdx	;; set a->next to original b->next (c)
 
-	mov r11, [r12]		;; previous node is the head
-	mov r14, [r15+8]
-	mov r15, [r14+8]
-
+	mov rbx, [r12]		;; previous node is the head
 	pop rdx
 	inc rdx 			;; set flag
 
 	xchg r14, r15
-	jmp .incr
+	jmp .check 
 
 .swap:	;; rdx != 0 means we're not on list head ptr
 	cmp rdx, 0
@@ -86,23 +82,21 @@ ft_list_sort:	;; void ft_list_sort(t_list **begin_list, int (*cmp)());
 	;; nodes a -> b -> c
 	;; currently swapping b & c
 	push rdx
-	mov [r11+8], r15	;; a->next must point to c
+	mov [rbx+8], r15	;; a->next must point to c
 	mov rdx, [r15+8]	;; save c->next
 	mov [r15+8], r14	;; set b as c->next
 	mov [r14+8], rdx	;; restore initial c->next in b->next (NULL here)
 
-	mov r11, r15
-	mov r14, [r15+8]
-	mov r15, [r14+8]
-
+	mov rbx, r15
 	pop rdx
 
 	xchg r14, r15
-	jmp .incr
+	jmp .check
 
 .incr:	;; set list to list->next
-	mov r11, r14
-	mov r14, r15
+	inc rdx 			;; set flag
+	mov rbx, r14
+	mov r14, [r14+8]
 	cmp r14, 0
 	je .loop
 
