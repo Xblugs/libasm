@@ -61,3 +61,7 @@ xxd -a prog
 [Syscall num in linux](https://github.com/torvalds/linux/blob/master/arch/x86/entry/syscalls/syscall_64.tbl)  
 [x86-64 Reference Sheet (AT&T syntax)](https://web.stanford.edu/class/cs107/resources/x86-64-reference.pdf)  
 [Intel x86 JUMP quick reference](http://unixwiz.net/techtips/x86-jumps.html)
+[Article about SIMD instructions](https://medium.com/hackernoon/harnessing-the-power-of-simd-sse-assembly-instructions-for-good-fdaa8ce34e9a)
+[SIMD Parallelism](https://en.algorithmica.org/hpc/simd/)
+[x86 Intrinsics Cheat Sheet](https://db.in.tum.de/~finis/x86%20intrinsics%20cheat%20sheet%20v1.0.pdf)
+[SIMD Registers](https://simplifycpp.org/articles/a0724/designing-an-x86-64-assembler-simd-registers-xmm-ymm-zmm/)

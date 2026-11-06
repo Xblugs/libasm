@@ -46,7 +46,6 @@ int main(int ac, char **av)
 	return (0);
 }
 
-
 static void mandatory_test(void)
 {
 	strlen_test();
@@ -75,6 +74,9 @@ static void bonus_test(void)
 {
 	list_test();
 	press_anykey();
+
+	// list_test();
+	// press_anykey();
 }
 
 /*/////////////////////
@@ -175,6 +177,7 @@ static void strcmp_test(void)
 
 	printf("\n" END);
 }
+
 static void write_test(void)
 {
 	printf(GREEN "\tWRITE TESTS!\n");
@@ -314,6 +317,15 @@ static void calloc_test(void)
 /*/////////////////////
 //	BONUS PART TESTS //
 *//////////////////////
+
+static void atoi_test(void)
+{
+	printf(CYAN "\tATOI BASE TESTS!\n");
+
+
+
+	printf("\n" END);
+}
 
 /*
 	Tests list functions together
