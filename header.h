@@ -88,4 +88,7 @@ extern void *ft_simd_memchr(const void *s, int c, size_t n);
 /*
 	Misc part because why not
 */
+// used internally by ft_atoi_base to make it more readable
+extern void	*ft_memchr(const void *s, int c, size_t n);
+
 extern void ft_exit(int status);

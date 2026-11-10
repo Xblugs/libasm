@@ -12,7 +12,12 @@ static void strdup_test(void);
 static void calloc_test(void);
 
 static void bonus_test(void);
+static void atoi_test(void);
 static void list_test(void);
+static void simd_memchr_test(void);
+
+static void misc_test(void);
+static void memchr_test(void);
 
 static void press_anykey(void)
 {
@@ -35,6 +40,8 @@ int main(int ac, char **av)
 		status = 1;
 	else if (ac >= 2 && !strcmp(av[1], "bonus"))
 		status = 2;
+	else if (ac >= 2 && !strcmp(av[1], "misc"))
+		status = 4;
 	else
 		status = 3;
 
@@ -42,6 +49,9 @@ int main(int ac, char **av)
 		mandatory_test();
 	if (status == 2 || status == 3)
 		bonus_test();
+	if (status == 4)
+		misc_test();
+
 	ft_exit(42);
 	return (0);
 }
@@ -72,12 +82,50 @@ static void mandatory_test(void)
 
 static void bonus_test(void)
 {
+	atoi_test();
+	press_anykey();
+	
 	list_test();
 	press_anykey();
 
-	// list_test();
-	// press_anykey();
+	simd_memchr_test();
+	press_anykey();
 }
+
+static void misc_test(void)
+{
+	memchr_test();
+	press_anykey();
+}
+
+static void memchr_test(void)
+{
+	printf(YELLOW "\tMEMCHR TESTS!\n");
+
+	char *s1  = "apple honey crusty apple cake";
+	char *s2  = "honey";
+	char *s3  = "apple";
+	char *s4  = "not my chair";	// don't sit on cakes
+	char *ptr = NULL;
+
+	ptr = ft_memchr(s1, 'h', 15);
+	printf("ptr=%p, finding 'h' in [%s]=%s\n", ptr, s1, ptr);
+
+	ptr = ft_memchr(s1, 'c', 15);
+	printf("ptr=%p, finding 'c' in [%s]=%s\n", ptr, s1, ptr);
+
+	ptr = ft_memchr(s3, 'h', 15);
+	printf("ptr=%p, finding 'h' in [%s]=%s\n", ptr, s3, ptr);
+
+	// ptr = ft_memchr(s3, 'z', 300);
+	// printf("ptr=%p, finding 'z' in [%s]=%s\n", ptr, s4, ptr);
+
+	ptr = ft_memchr(s3, 'z', 0);
+	printf("ptr=%p, finding 'z' in [%s]=%s\n", ptr, s4, ptr);
+
+	printf("\n" END);
+}
+
 
 /*/////////////////////
 //	MANDATORY TESTS  //
@@ -322,7 +370,34 @@ static void atoi_test(void)
 {
 	printf(CYAN "\tATOI BASE TESTS!\n");
 
+	int ret = 42;
 
+	// numbers to convert
+	char *s1  		= "123";
+	char *s2  		= "042";
+	char *s3  		= "202";
+
+	// base
+	char *dec 		= "0123456789";
+	char *hexl 		= "0123456789abcdef";
+	char *hexu 		= "0123456789ABCDEF";
+
+	// error
+	char *sdup		= "001";
+	char *s_wspace	= "0 2";
+	char *s_sign	= "+12";
+
+	ret = ft_atoi_base(s1, sdup);
+	printf("a=[%s], base=[%s], i=[%d]\n", s1, sdup, ret);
+
+	ret = ft_atoi_base(s1, s_wspace);
+	printf("a=[%s], base=[%s], i=[%d]\n", s1, s_wspace, ret);
+
+	ret = ft_atoi_base(s1, s_sign);
+	printf("a=[%s], base=[%s], i=[%d]\n", s1, s_sign, ret);
+
+	ret = ft_atoi_base(s1, dec);
+	printf("a=[%s], base=[%s], i=[%d]\n", s1, dec, ret);
 
 	printf("\n" END);
 }
@@ -468,6 +543,34 @@ static void list_test(void)
 	ft_list_remove_if(&head, "c", strcmp, free);
 	ft_list_remove_if(&head, "d", strcmp, free);
 	ft_list_remove_if(&head, "e", strcmp, free);
+
+	printf("\n" END);
+}
+
+static void simd_memchr_test(void)
+{
+	printf(GREEN "\tSIMD MEMCHR TESTS!\n");
+
+	char *s1  = "apple honey crusty apple cake";
+	char *s2  = "honey";
+	char *s3  = "apple";
+	char *s4  = "not my chair";	// don't sit on cakes
+	char *ptr = NULL;
+
+	ptr = ft_simd_memchr(s1, 'h', 15);
+	printf("ptr=%p, finding 'h' in [%s]=%s\n", ptr, s1, ptr);
+
+	ptr = ft_simd_memchr(s1, 'c', 15);
+	printf("ptr=%p, finding 'c' in [%s]=%s\n", ptr, s1, ptr);
+
+	ptr = ft_simd_memchr(s3, 'h', 15);
+	printf("ptr=%p, finding 'h' in [%s]=%s\n", ptr, s3, ptr);
+
+	// ptr = ft_simd_memchr(s3, 'z', 300);
+	// printf("ptr=%p, finding 'z' in [%s]=%s\n", ptr, s4, ptr);
+
+	ptr = ft_simd_memchr(s3, 'z', 0);
+	printf("ptr=%p, finding 'z' in [%s]=%s\n", ptr, s4, ptr);
 
 	printf("\n" END);
 }

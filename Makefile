@@ -9,12 +9,15 @@ SRC				:=	ft_calloc.s 			\
 					ft_strlen.s				\
 					ft_write.s	
 
-SRC_BONUS		:=	ft_list_push_front.s	\
+SRC_BONUS		:=	ft_atoi_base.s			\
+					ft_list_push_front.s	\
 					ft_list_remove_if.s		\
 					ft_list_size.s			\
-					ft_list_sort.s
+					ft_list_sort.s			\
+					ft_simd_memchr.s
 
-SRC_MISC		:= 	ft_exit.s
+SRC_MISC		:= 	ft_exit.s				\
+					ft_memchr.s
 
 SOURCES			:= $(SRC)
 SOURCES_BONUS	:= $(SRC_BONUS) $(SRC_MISC)
