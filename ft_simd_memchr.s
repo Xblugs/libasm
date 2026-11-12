@@ -49,7 +49,7 @@ ft_simd_memchr: ;; void *ft_simd_memchr(const void *s, int c, size_t n);
     movdqa  xmm0, [rdi]         ; Load 16 aligned bytes into xmm0
     pcmpeqb xmm0, xmm1          ; Compare elements for equality (matches = 0xFF, else 0x00)
     pmovmskb eax, xmm0          ; Extract MSB of each byte into a 16-bit mask in EAX
-    ;; Packed Compare for Euality (unsigned Quadword/Vector) Bytes
+    ;; Packed Compare for Equality (unsigned Quadword/Vector) Bytes
 	;; Packed MOVe MaSk Key Bytes
 
     test    eax, eax            ; Did any byte match? (mask != 0)

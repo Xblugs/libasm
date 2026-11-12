@@ -89,7 +89,7 @@ ft_atoi_base:			;; int ft_atoi_base(char *str, char *base);
 	cmp rcx, 0
 	je .verify_str
 
-	mov sil, byte [rsi]
+	movzx esi, byte [rsi]
 	mov rdx, rcx
 
 	push rcx			;; my memchr doesn't use rcx but still
@@ -126,18 +126,21 @@ ft_atoi_base:			;; int ft_atoi_base(char *str, char *base);
 	cmp r8, 0			;; skip process on string end
 	je .end_error
 
-	mov dil, r8b
+	movzx dil, r8b
 	push r8
 	call ft_isspace		;; check whitespace inside
 	pop r8
 
 	cmp rax, 0
-	je  .loop_str_inc
-	jne .ws_end
+	jne .loop_str_inc
+	je .ws_end
 
 .ws_end:
 	;; no more whitespace is accepted from here
 	;; Accept only one optional sign, default to positive values
+
+	cmp r8b, 43			;; '+'
+	je .loop_str_inc
 
 	cmp r8b, 45			;; '-'
 	je .minus_sign
@@ -148,6 +151,7 @@ ft_atoi_base:			;; int ft_atoi_base(char *str, char *base);
 
 .minus_sign:			;; set negative flag
 	inc bh
+	jmp .loop_str_inc
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -156,23 +160,23 @@ ft_atoi_base:			;; int ft_atoi_base(char *str, char *base);
 
 .loop_str:
 	cmp r8, 0
-	je .end				;; str '\0'
+	je .add_sign		;; str '\0'
 
 	mov rdi, r13
 	mov rsi, r8
-	mov rdx, rcx
+	mov rdx, r15
 
 	push r8
 	push r9
 	push rax
 	call ft_memchr		;; void	*ft_memchr(const void *s, int c, size_t n);
 
-	mov rbx, rax		;; save returned address
+	mov r11, rax		;; save returned address
 	cmp rax, 0			;; 0 = not found = end of valid input, we stop
 	pop rax				;; pop doesn't change cmp flags
 	pop r9
 	pop r8
-	jne	.add_sign		;; not found, first invalid char means we stop here
+	je	.add_sign		;; not found, first invalid char means we stop here
 
 	jmp .process
 
@@ -180,9 +184,7 @@ ft_atoi_base:			;; int ft_atoi_base(char *str, char *base);
 	;; Get the number corresponding to the character scanned
 	;; num = num * [base len] + num		; take off the ascii part
 
-	push rdx			;; imul can overwrite rdx
 	imul rax, r15
-	pop rdx
 
 	sub r11, r13		;; pointer arithmetic to convert easily from any base
 	shr r11, 3			;; shift right 3 slots (convert from bytes)
