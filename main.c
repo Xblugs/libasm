@@ -17,6 +17,7 @@ static void list_test(void);
 static void simd_memchr_test(void);
 
 static void misc_test(void);
+static void isspace_test(void);
 static void memchr_test(void);
 
 static void press_anykey(void)
@@ -94,8 +95,30 @@ static void bonus_test(void)
 
 static void misc_test(void)
 {
+	isspace_test();
+	press_anykey();
+
 	memchr_test();
 	press_anykey();
+}
+
+/*/////////////////////
+//	INTERNAL TESTS   //
+*//////////////////////
+
+static void isspace_test(void)
+{
+	printf(GREEN "\tISSPACE TESTS!\n");
+
+	printf("testing backslashes char = %d %d %d\n",
+		 ft_isspace('\r'), ft_isspace('\t'), ft_isspace('\n'));
+
+	printf("testing lower/upper char = %d %d %d\n",
+		 ft_isspace(0), ft_isspace(23), ft_isspace(30));
+
+	printf("testing space char = %d\n", ft_isspace(' '));
+
+	printf("\n" END);
 }
 
 static void memchr_test(void)
@@ -379,6 +402,7 @@ static void atoi_test(void)
 
 	// base
 	char *dec 		= "0123456789";
+	char *ced 		= "9876543210";
 	char *hexl 		= "0123456789abcdef";
 	char *hexu 		= "0123456789ABCDEF";
 
@@ -388,16 +412,19 @@ static void atoi_test(void)
 	char *s_sign	= "+12";
 
 	ret = ft_atoi_base(s1, sdup);
-	printf("a=[%s], base=[%s], i=[%d]\n", s1, sdup, ret);
+	printf("a=[%s], base=[%s], \ti=[%d]\n", s1, sdup, ret);
 
 	ret = ft_atoi_base(s1, s_wspace);
-	printf("a=[%s], base=[%s], i=[%d]\n", s1, s_wspace, ret);
+	printf("a=[%s], base=[%s], \ti=[%d]\n", s1, s_wspace, ret);
 
 	ret = ft_atoi_base(s1, s_sign);
-	printf("a=[%s], base=[%s], i=[%d]\n", s1, s_sign, ret);
+	printf("a=[%s], base=[%s], \ti=[%d]\n", s1, s_sign, ret);
 
 	ret = ft_atoi_base(s1, dec);
 	printf("a=[%s], base=[%s], i=[%d]\n", s1, dec, ret);
+
+	ret = ft_atoi_base(s1, ced);
+	printf("a=[%s], base=[%s], i=[%d]\n", s1, ced, ret);
 
 	printf("\n" END);
 }

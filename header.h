@@ -90,5 +90,6 @@ extern void *ft_simd_memchr(const void *s, int c, size_t n);
 */
 // used internally by ft_atoi_base to make it more readable
 extern void	*ft_memchr(const void *s, int c, size_t n);
+extern int	ft_isspace(int c);
 
 extern void ft_exit(int status);

@@ -4,6 +4,8 @@ Subject Version 6
 
 The goal is to make a static library from functions made in assembly using intel syntax.  
 
+This library was intentionally made with the simplest set of instructions for the sake of simplicity.
+
 #### Required for the mandatory part:
 - ft_strlen &rarr; `size_t strlen(const char *s)`
 - ft_strcpy &rarr; `char *strcpy(char *dest, const char *src)`
@@ -60,8 +62,9 @@ xxd -a prog
 [ASM introduction](https://github.com/0xAX/asm/tree/master)  
 [Syscall num in linux](https://github.com/torvalds/linux/blob/master/arch/x86/entry/syscalls/syscall_64.tbl)  
 [x86-64 Reference Sheet (AT&T syntax)](https://web.stanford.edu/class/cs107/resources/x86-64-reference.pdf)  
-[Intel x86 JUMP quick reference](http://unixwiz.net/techtips/x86-jumps.html)
-[Article about SIMD instructions](https://medium.com/hackernoon/harnessing-the-power-of-simd-sse-assembly-instructions-for-good-fdaa8ce34e9a)
-[SIMD Parallelism](https://en.algorithmica.org/hpc/simd/)
-[x86 Intrinsics Cheat Sheet](https://db.in.tum.de/~finis/x86%20intrinsics%20cheat%20sheet%20v1.0.pdf)
-[SIMD Registers](https://simplifycpp.org/articles/a0724/designing-an-x86-64-assembler-simd-registers-xmm-ymm-zmm/)
+[Intel x86 JUMP quick reference](http://unixwiz.net/techtips/x86-jumps.html)  
+[Article about SIMD instructions](https://medium.com/hackernoon/harnessing-the-power-of-simd-sse-assembly-instructions-for-good-fdaa8ce34e9a)  
+[SIMD Parallelism](https://en.algorithmica.org/hpc/simd/)  
+[x86 Intrinsics Cheat Sheet](https://db.in.tum.de/~finis/x86%20intrinsics%20cheat%20sheet%20v1.0.pdf)  
+[SIMD Registers](https://simplifycpp.org/articles/a0724/designing-an-x86-64-assembler-simd-registers-xmm-ymm-zmm/)  
+[The Art of 64-bit assembly language (book by Randall Hyde)](https://kolegite.com/EE_library/books_and_lectures/%D0%9F%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%B8%D1%80%D0%B0%D0%BD%D0%B5/The%20Art%20of%2064-Bit%20Assembly%2C%20Volume%201%20x86-64%20Machine%20Organization%20and%20Programming%20%28Randall%20Hyde%29%20%28z-lib.org%29.pdf)  

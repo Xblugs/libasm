@@ -5,7 +5,8 @@ ft_strcpy:	;; char *ft_strcpy(char *dest, const char *src);
 
 	xor rax, rax
 	mov rdx, rdi
-	.check:
+
+.check:
 	cmp byte [rsi], 0
 	jne .loop
 

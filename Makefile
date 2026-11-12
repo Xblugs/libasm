@@ -17,6 +17,7 @@ SRC_BONUS		:=	ft_atoi_base.s			\
 					ft_simd_memchr.s
 
 SRC_MISC		:= 	ft_exit.s				\
+					ft_isspace.s			\
 					ft_memchr.s
 
 SOURCES			:= $(SRC)

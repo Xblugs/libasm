@@ -1,6 +1,6 @@
 section .text
 
-global ft_memchr
+global ft_memchr	;; void	*ft_memchr(const void *s, int c, size_t n);
 
 	;; search *s to find c in n memory slots
 

@@ -2,14 +2,14 @@ section .text
 global ft_strcmp
 
 ft_strcmp:	;; int ft_strcmp(const char *s1, const char *s2);
-
 	xor rax, rax
-	.check:
+
+.check:
 	mov al, byte [rdi]
 	cmp al, byte [rsi]
 	je .loop
 
-	.end:
+.end:
 	xor rax, rax
 	xor rcx, rcx
 	mov al, byte [rdi]

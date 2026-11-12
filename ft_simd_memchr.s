@@ -1,5 +1,5 @@
 section .text
-global ft_simd_memchr
+global ft_simd_memchr   ;; void *ft_simd_memchr(const void *s, int c, size_t n);
 
 ; ft_simd_memchr:	;; void *ft_simd_memchr(const void *s, int c, size_t n);
 	;; The  memchr()  and memrchr() functions return a pointer to the matching
@@ -8,7 +8,7 @@ global ft_simd_memchr
 
 
 ;; AI made for reference
-ft_simd_memchr:
+ft_simd_memchr: ;; void *ft_simd_memchr(const void *s, int c, size_t n);
     ; 1. Early exit check: if n == 0, return NULL immediately
     test    rdx, rdx
     jz      .not_found
