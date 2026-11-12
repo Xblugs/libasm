@@ -345,7 +345,7 @@ static void read_test(void)
 
 static void strdup_test(void)
 {
-	printf(B_RED "\tSTRDUP TESTS!\n");
+	printf(B_YELLOW "\tSTRDUP TESTS!\n");
 
 	char src[30] = "Testing grounds!", *ptr1 = NULL, *ptr2 = NULL;
 
