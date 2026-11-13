@@ -92,7 +92,7 @@ ft_atoi_base:			;; int ft_atoi_base(char *str, char *base);
 	movzx esi, byte [rsi]
 	mov rdx, rcx
 
-	push rcx			;; my memchr doesn't use rcx but still
+	push rcx
 	call ft_memchr
 	pop rcx
 	cmp rax, 0
@@ -123,10 +123,10 @@ ft_atoi_base:			;; int ft_atoi_base(char *str, char *base);
 	xor rbx, rbx		;; part of rbx will be used as flags (bl, bh)
 
 .verify_whitespace:
-	cmp r8, 0			;; skip process on string end
+	cmp r8b, 0			;; skip process on string end
 	je .end_error
 
-	movzx dil, r8b
+	movzx rdi, r8b
 	push r8
 	call ft_isspace		;; check whitespace inside
 	pop r8
@@ -145,7 +145,7 @@ ft_atoi_base:			;; int ft_atoi_base(char *str, char *base);
 	cmp r8b, 45			;; '-'
 	je .minus_sign
 
-	inc bl
+	inc bl				;; set loop_str flag (inc jmp)
 	xor rax, rax		;; reset rax before processing
 	jmp .loop_str
 
@@ -159,7 +159,7 @@ ft_atoi_base:			;; int ft_atoi_base(char *str, char *base);
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 .loop_str:
-	cmp r8, 0
+	cmp r8b, 0
 	je .add_sign		;; str '\0'
 
 	mov rdi, r13
@@ -187,7 +187,7 @@ ft_atoi_base:			;; int ft_atoi_base(char *str, char *base);
 	imul rax, r15
 
 	sub r11, r13		;; pointer arithmetic to convert easily from any base
-	shr r11, 3			;; shift right 3 slots (convert from bytes)
+	; shr r11, 3			;; shift right 3 slots (convert from bytes)
 
 	add rax, r11
 

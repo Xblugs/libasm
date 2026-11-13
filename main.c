@@ -399,6 +399,14 @@ static void atoi_test(void)
 	char *s1  		= "123";
 	char *s2  		= "042";
 	char *s3  		= "202";
+	char *s4  		= "  \t    +202hello";
+	char *s5  		= "-202U";
+	char *s6		= "   +U123";
+	char *s7		= "  U+123";
+	char *s8		= "876";
+	char *s9		= "FF";
+	char *s10		= "2147483647";
+	char *s11		= "-2147483648";
 
 	// base
 	char *dec 		= "0123456789";
@@ -411,6 +419,7 @@ static void atoi_test(void)
 	char *s_wspace	= "0 2";
 	char *s_sign	= "+12";
 
+	printf("\nBase argument tests:\n");
 	ret = ft_atoi_base(s1, sdup);
 	printf("a=[%s], base=[%s], \ti=[%d]\n", s1, sdup, ret);
 
@@ -420,11 +429,44 @@ static void atoi_test(void)
 	ret = ft_atoi_base(s1, s_sign);
 	printf("a=[%s], base=[%s], \ti=[%d]\n", s1, s_sign, ret);
 
+
+	printf("\nConversion tests:\n");
 	ret = ft_atoi_base(s1, dec);
 	printf("a=[%s], base=[%s], i=[%d]\n", s1, dec, ret);
 
+	ret = ft_atoi_base(s2, dec);
+	printf("a=[%s], base=[%s], i=[%d]\n", s2, dec, ret);
+
+	ret = ft_atoi_base(s3, dec);
+	printf("a=[%s], base=[%s], i=[%d]\n", s3, dec, ret);
+
+	ret = ft_atoi_base(s5, dec);
+	printf("a=[%s], base=[%s], i=[%d]\n", s5, dec, ret);
+
+	ret = ft_atoi_base(s6, dec);
+	printf("a=[%s], base=[%s], i=[%d]\n", s6, dec, ret);
+
+	ret = ft_atoi_base(s7, dec);
+	printf("a=[%s], base=[%s], i=[%d]\n", s7, dec, ret);
+
+	printf("\nMisc tests:\n");
+	ret = ft_atoi_base(s4, dec);
+	printf("a=[%s], base=[%s], i=[%d]\n", s4, dec, ret);
+
 	ret = ft_atoi_base(s1, ced);
 	printf("a=[%s], base=[%s], i=[%d]\n", s1, ced, ret);
+
+	ret = ft_atoi_base(s8, ced);
+	printf("a=[%s], base=[%s], i=[%d]\n", s8, ced, ret);
+
+	ret = ft_atoi_base(s9, hexu);
+	printf("a=[%s], base=[%s], i=[%d]\n", s9, hexu, ret);
+
+	ret = ft_atoi_base(s10, dec);
+	printf("a=[%s], base=[%s], i=[%d]\n", s10, dec, ret);
+
+	ret = ft_atoi_base(s11, dec);
+	printf("a=[%s], base=[%s], i=[%d]\n", s11, dec, ret);
 
 	printf("\n" END);
 }

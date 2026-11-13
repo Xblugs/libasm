@@ -6,6 +6,26 @@ The goal is to make a static library from functions made in assembly using intel
 
 This library was intentionally made with the simplest set of instructions for the sake of simplicity.
 
+AI was used to help debugging and to generate ft_simd_memchr.s instructions.
+
+### Required steps to build the project:
+
+This project requires
+- GNU Make
+- NASM
+
+Additionally to run `make test`:
+- a C compiler with libc (preferably GCC or Clang)
+
+<br>
+
+To compile the libasm.a:  
+Use `make` to create the library with the mandatory part functions only.  
+Use `make bonus` to create the library with all included functions.
+
+To compile the tests:
+Use `make test` to create the libasm_tester executable to run tests.
+
 #### Required for the mandatory part:
 - ft_strlen &rarr; `size_t strlen(const char *s)`
 - ft_strcpy &rarr; `char *strcpy(char *dest, const char *src)`
@@ -54,8 +74,7 @@ objdump -M intel -d -j .text prog
 xxd -a prog  
 ```
 
-.asm --> intel syntax  
-.s	 --> not intel
+NASM accept both .s (mostly found on linux) and .asm (windows).
 
 ## Ressources
 
