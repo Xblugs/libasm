@@ -10,7 +10,7 @@ AI was used to help debugging and to generate ft_simd_memchr.s instructions.
 
 ### Required steps to build the project:
 
-This project requires
+This project requires:
 - GNU Make
 - NASM
 
@@ -25,6 +25,12 @@ Use `make bonus` to create the library with all included functions.
 
 To compile the tests:
 Use `make test` to create the libasm_tester executable to run tests.
+
+The tester can run different batchs of tests:
+- `./libasm_tester` runs mandatory + bonus functions.
+- `./libasm_tester mandatory` runs only mandatory functions.
+- `./libasm_tester bonus` runs only bonus functions.
+- `./libasm_tester misc` runs internal functions tests (not required per the subject).
 
 #### Required for the mandatory part:
 - ft_strlen &rarr; `size_t strlen(const char *s)`
@@ -74,12 +80,16 @@ objdump -M intel -d -j .text prog
 xxd -a prog  
 ```
 
-NASM accept both .s (mostly found on linux) and .asm (windows).
+#### AT&T vs Intel syntax
+
+![Exemple of each syntax](./readme_assets/asm_syntax.png)
+
+NASM accept both .s (linux) and .asm (windows).
 
 ## Ressources
 
 [ASM introduction](https://github.com/0xAX/asm/tree/master)  
-[Syscall num in linux](https://github.com/torvalds/linux/blob/master/arch/x86/entry/syscalls/syscall_64.tbl)  
+[Syscall numbers in linux](https://github.com/torvalds/linux/blob/master/arch/x86/entry/syscalls/syscall_64.tbl)  
 [x86-64 Reference Sheet (AT&T syntax)](https://web.stanford.edu/class/cs107/resources/x86-64-reference.pdf)  
 [Intel x86 JUMP quick reference](http://unixwiz.net/techtips/x86-jumps.html)  
 [Article about SIMD instructions](https://medium.com/hackernoon/harnessing-the-power-of-simd-sse-assembly-instructions-for-good-fdaa8ce34e9a)  

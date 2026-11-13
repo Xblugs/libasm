@@ -119,7 +119,6 @@ ft_atoi_base:			;; int ft_atoi_base(char *str, char *base);
 	mov r9, r12			;; *str adress
 	xor r8, r8
 	mov r8b, byte [r9]
-	mov rcx, r14		;; str len
 	xor rbx, rbx		;; part of rbx will be used as flags (bl, bh)
 
 .verify_whitespace:
@@ -182,7 +181,7 @@ ft_atoi_base:			;; int ft_atoi_base(char *str, char *base);
 
 .process:
 	;; Get the number corresponding to the character scanned
-	;; num = num * [base len] + num		; take off the ascii part
+	;; num = num * [base len] + num
 
 	imul rax, r15
 
@@ -196,8 +195,6 @@ ft_atoi_base:			;; int ft_atoi_base(char *str, char *base);
 .loop_str_inc:			;; load next char
 	inc r9
 	mov r8b, byte [r9]
-
-	dec rcx				;; space left in str
 
 .jump_back:
 	cmp bl, 0

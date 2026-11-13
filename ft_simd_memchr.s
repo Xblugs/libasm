@@ -37,7 +37,7 @@ ft_simd_memchr: ;; void *ft_simd_memchr(const void *s, int c, size_t n);
     test    rdi, 15
     jz      .main_simd_setup
 
-   ; ; Check if our scalar alignment loop ran out of bytes (n == 0)
+    ;; Check if our scalar alignment loop ran out of bytes (n == 0)
     test    rdx, rdx
     jz      .not_found
 
